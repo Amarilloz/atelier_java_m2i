@@ -15,6 +15,42 @@ import static org.junit.Assert.*;
  */
 public class ListTest {
     
+//    @Test
+    public void removeOK(){
+        ArrayList<String> prenoms = new ArrayList<>();
+        
+        
+        prenoms.add("Jean");
+        prenoms.add("Jacques");
+        prenoms.add("Chantal");
+        prenoms.add("Philippe");
+        prenoms.add("Chantal");
+        prenoms.remove("Chantal");
+        
+        for(String prenom:prenoms){
+            System.out.println(prenom);
+        }
+    }
+    
+    @Test
+    public void removeAllOK(){
+        ArrayList<String> listeCouleurs1 = new ArrayList<>();        
+        listeCouleurs1.add("Rouge");
+        listeCouleurs1.add("Vert");
+        listeCouleurs1.add("Jaune");
+        
+        ArrayList<String> listeCouleurs2 = new ArrayList<>();
+        listeCouleurs2.add("Rouge");
+        listeCouleurs2.add("Jaune");
+        
+        listeCouleurs1.removeAll(listeCouleurs2);
+        
+        for (String listeCouleur : listeCouleurs1) {
+            System.out.println(listeCouleur);
+        }
+    }
+    
+    
     // Méthode pour afficher les nombres factoriels jusqu'à 20!
     public int factorielle(int n){
         int res = n;
@@ -24,7 +60,7 @@ public class ListTest {
         return res;
     }
     
-    @Test
+//    @Test
     public void factorielleOK(){
         ArrayList<Integer> factorielles = new ArrayList<>();
         // Affiche les nombres factoriels jusqu'à 20!
@@ -56,16 +92,14 @@ public class ListTest {
                 System.out.println(i);// Affiche les nombres premiers jusqu'à 100
             }
         }
-        System.out.println(nombresPremiers);// Affiche les nombres premiers jusqu'à 100
         
         // Méthode pour afficher les multiples de 2 jusqu'à 100
         for(int i=0;i<100;i=i+2){
             System.out.println(i);// Affiche les multiples de 2 jusqu'à 100
         }
+                
+        System.out.println(nombresPremiers);
         
-        for(Integer nombre:nombresPremiers){
-            System.out.println(nombre);
-        }
     }
     
 //    @Test
