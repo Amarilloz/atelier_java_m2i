@@ -5,14 +5,14 @@
  */
 package atelierjava.exercice_ferme.service;
 
-import atelierjava.exercice_ferme.dao.FermeDAO;
-import atelierjava.exercice_ferme.entite.Ferme;
+import atelierjava.exercice_ferme.dao.JoueurDAO;
+import atelierjava.exercice_ferme.entite.Joueur;
 
 /**
  *
  * @author Formation
  */
-public class FermeService {
+public class JoueurService {
 
     /**
      * Pseudo :<br>
@@ -45,16 +45,23 @@ public class FermeService {
         }
         
         // Vérifier que le pseudo est disponible
-        FermeDAO dao = new FermeDAO();
+        JoueurDAO dao = new JoueurDAO();
         if (dao.existe(pseudo)) {
             throw new RuntimeException("Ce pseudo existe déjà");
         }
 
         // Ajoute la ferme en BDD
-        Ferme ferme = new Ferme();
-        ferme.setNom(pseudo);
+        Joueur ferme = new Joueur();
+        ferme.setPseudo(pseudo);
         ferme.setMotDePasse(mdp);
         dao.ajouter(ferme);
 
+    }
+    public boolean connexion(String pseudo,String mdp){
+        JoueurDAO dao = new JoueurDAO();
+        if (dao.existe(pseudo,mdp)) {
+            return true;
+        }
+        return false;
     }
 }

@@ -11,11 +11,11 @@ import java.util.ArrayList;
  *
  * @author Formation
  */
-public class Ferme {
+public class Joueur {
     
     private String motDePasse;
     private double budget;
-    private String nom;
+    private String pseudo;
     private ArrayList<Ressource> ressourcesPossedees = new ArrayList<>();
     private ArrayList<Terrain> terrains = new ArrayList<>();
 
@@ -35,12 +35,12 @@ public class Ferme {
         this.budget = budget;
     }
 
-    public String getNom() {
-        return nom;
+    public String getPseudo() {
+        return pseudo;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
     }
 
     public ArrayList<Ressource> getRessourcesPossedees() {
