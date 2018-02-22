@@ -6,7 +6,9 @@
 package atelierjava.exercice_ferme.dao;
 
 import atelierjava.exercice_ferme.entite.Joueur;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -14,36 +16,51 @@ import java.util.ArrayList;
  */
 public class JoueurDAO {
 
-    private static ArrayList<Joueur> joueurs = new ArrayList<>();
-
-    public void ajouter(Joueur ferme) {
-        joueurs.add(ferme);
+    public void ajouter(Joueur j) {
+        EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+        em.getTransaction().begin();
+        em.persist(j);
+        em.getTransaction().commit();
     }
 
     public Joueur recherche(String pseudo) {
-        for (Joueur JoueurAct : joueurs) {
-            if (pseudo.equals(JoueurAct.getPseudo())) {
-                return JoueurAct;
-            }
-        }
-        return null;
+        EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+        Query query = em.createQuery(""
+                + "SELECT   j "
+                + "FROM     Joueur j "
+                + "WHERE    j.pseudo=:pseudoRecherche");
+        query.setParameter("pseudoRecherche", pseudo);
+        Joueur j = (Joueur) query.getSingleResult();
+        return j;
     }
 
     public boolean existe(String pseudo) {
-        Joueur f = this.recherche(pseudo);
-        if (f == null) {
+        EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+        Query query = em.createQuery(""
+                + "SELECT   j "
+                + "FROM     Joueur j "
+                + "WHERE    j.pseudo=:pseudoExistant");
+        query.setParameter("pseudoExistant", pseudo);
+        Long nbRes = (Long) query.getSingleResult();
+        if (nbRes == 0) {
             return false;
         }
         return true;
     }
 
     public boolean existe(String pseudo, String mdp) {
-        for (Joueur JoueurAct : joueurs) {
-            if (JoueurAct.getPseudo().equals(pseudo)
-                    && JoueurAct.getMotDePasse().equals(mdp)) {
-                return true;
-            }
+        EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+        Query query = em.createQuery(""
+                + "SELECT   COUNT(j) "
+                + "FROM     Joueur j "
+                + "WHERE    j.pseudo=:pseudoExistant "
+                + "AND      j.motDePasse=:mdpExistant");
+        query.setParameter("pseudoExistant", pseudo);
+        query.setParameter("mdpExistant", mdp);
+        Long nbRes = (Long) query.getSingleResult();
+        if (nbRes == 0) {
+            return false;
         }
-        return false;
+        return true;
     }
 }

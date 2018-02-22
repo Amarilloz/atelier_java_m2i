@@ -19,7 +19,7 @@ public class JoueurService {
      * - mini 3 lettres, maxi 8<br>
      * - unique<br>
      * Mdp :<br>
-     * - mini 5 lettres, maxi 8<br>
+     * - mini 5 lettres, maxi 10<br>
      * - au moins une Maj et un chiffre<br>
      *
      * @param pseudo
@@ -29,7 +29,7 @@ public class JoueurService {
         if (pseudo.length() < 3 || pseudo.length() > 8) {
             throw new RuntimeException("Le pseudo doit être compris entre 3 et 8 caractères");
         }
-        if (mdp.length() < 5 || mdp.length() > 8) {
+        if (mdp.length() < 5 || mdp.length() > 10) {
             throw new RuntimeException("Le mot de passe doit être compris entre 5 et 8 caractères");
         }
         if (!mdp.matches(".*[A-Z].*") || !mdp.matches(".*[0-9].*")) {
@@ -43,7 +43,7 @@ public class JoueurService {
             // * équivaut à {0,} et + équivaut à {1,}
             throw new RuntimeException("Le mot de passe doit contenir au moins une majuscule et un chiffre");
         }
-        
+
         // Vérifier que le pseudo est disponible
         JoueurDAO dao = new JoueurDAO();
         if (dao.existe(pseudo)) {
@@ -57,11 +57,11 @@ public class JoueurService {
         dao.ajouter(ferme);
 
     }
-    public boolean connexion(String pseudo,String mdp){
+
+    public void connexion(String pseudo, String mdp) {
         JoueurDAO dao = new JoueurDAO();
-        if (dao.existe(pseudo,mdp)) {
-            return true;
+        if (!dao.existe(pseudo, mdp)) {
+            throw new RuntimeException("Echec de connexion");
         }
-        return false;
     }
 }

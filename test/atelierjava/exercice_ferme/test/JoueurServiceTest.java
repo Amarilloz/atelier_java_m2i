@@ -29,11 +29,17 @@ public class JoueurServiceTest {
     
     @Test
     public void connexionOK(){
-        
+        JoueurService service = new JoueurService();
+        service.inscription("azer", "Azerty01");
+        service.inscription("azert", "Azerty02");
+        service.connexion("azer", "Azerty01");
     }
     
     @Test(expected = RuntimeException.class)
     public void connexionKO(){
-        
+        JoueurService service = new JoueurService();
+        service.inscription("azerty", "Azerty03");
+        service.inscription("azertyu", "Azerty04");
+        service.connexion("azerty", "Azerty04");
     }
 }

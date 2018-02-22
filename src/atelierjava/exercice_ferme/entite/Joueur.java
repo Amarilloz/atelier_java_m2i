@@ -5,19 +5,26 @@
  */
 package atelierjava.exercice_ferme.entite;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
  * @author Formation
  */
-public class Joueur {
-    
+@Entity
+public class Joueur implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String motDePasse;
     private double budget;
     private String pseudo;
-    private ArrayList<Ressource> ressourcesPossedees = new ArrayList<>();
-    private ArrayList<Terrain> terrains = new ArrayList<>();
 
     public String getMotDePasse() {
         return motDePasse;
@@ -43,20 +50,37 @@ public class Joueur {
         this.pseudo = pseudo;
     }
 
-    public ArrayList<Ressource> getRessourcesPossedees() {
-        return ressourcesPossedees;
+    public Long getId() {
+        return id;
     }
 
-    public void setRessourcesPossedees(ArrayList<Ressource> ressourcesPossedees) {
-        this.ressourcesPossedees = ressourcesPossedees;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public ArrayList<Terrain> getTerrains() {
-        return terrains;
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
     }
 
-    public void setTerrains(ArrayList<Terrain> terrains) {
-        this.terrains = terrains;
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Joueur)) {
+            return false;
+        }
+        Joueur other = (Joueur) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
-    
+
+    @Override
+    public String toString() {
+        return "atelierjava.exercice_ferme.entity.Joueur[ id=" + id + " ]";
+    }
+
 }
