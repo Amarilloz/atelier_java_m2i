@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -22,6 +24,7 @@ public class Ressource implements Serializable {
         ANIMAL_MOUTON,
         ANIMAL_VACHE,
         CULTURE_BLE,
+        CULTURE_CAROTTE,
         CULTURE_MAIS
     }
 
@@ -31,6 +34,17 @@ public class Ressource implements Serializable {
     private Long id;
     private TypeRessource designation;
     private String nom;
+    @JoinColumn(name = "joueur_id")
+    @ManyToOne
+    private Joueur joueur;
+
+    public Joueur getJoueur() {
+        return joueur;
+    }
+
+    public void setJoueur(Joueur joueur) {
+        this.joueur = joueur;
+    }
 
     public TypeRessource getDesignation() {
         return designation;

@@ -17,6 +17,7 @@ import javax.persistence.Query;
 public class JoueurDAO {
 
     public void ajouter(Joueur j) {
+        // Récupère EntityManager
         EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
         em.getTransaction().begin();
         em.persist(j);
@@ -24,7 +25,9 @@ public class JoueurDAO {
     }
 
     public Joueur recherche(String pseudo) {
+        // Récupère EntityManager
         EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+        // Vérifie
         Query query = em.createQuery(""
                 + "SELECT   j "
                 + "FROM     Joueur j "
@@ -35,9 +38,11 @@ public class JoueurDAO {
     }
 
     public boolean existe(String pseudo) {
+        // Récupère EntityManager
         EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+        // Vérifie
         Query query = em.createQuery(""
-                + "SELECT   j "
+                + "SELECT   COUNT(j) "
                 + "FROM     Joueur j "
                 + "WHERE    j.pseudo=:pseudoExistant");
         query.setParameter("pseudoExistant", pseudo);
@@ -49,7 +54,9 @@ public class JoueurDAO {
     }
 
     public boolean existe(String pseudo, String mdp) {
+        // Récupère EntityManager
         EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+        // Vérifie
         Query query = em.createQuery(""
                 + "SELECT   COUNT(j) "
                 + "FROM     Joueur j "
