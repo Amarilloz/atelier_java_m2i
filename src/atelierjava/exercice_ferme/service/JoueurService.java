@@ -6,7 +6,9 @@
 package atelierjava.exercice_ferme.service;
 
 import atelierjava.exercice_ferme.dao.JoueurDAO;
+import atelierjava.exercice_ferme.dao.RessourceDAO;
 import atelierjava.exercice_ferme.entite.Joueur;
+import atelierjava.exercice_ferme.entite.Ressource;
 
 /**
  *
@@ -25,6 +27,39 @@ public class JoueurService {
      * @param pseudo
      * @param mdp
      */
+    public void ajouterRessource(long idJoueur,
+            Ressource.TypeRessource typeRessource,
+            long quantite) {
+        // Génère les ressources SI aucune ressource pour ce joueur
+        JoueurDAO dao = new JoueurDAO();
+        Joueur joueur = dao.rechercher(idJoueur);
+        // Ajouter ressource
+        for (int i = 0; i < quantite; i++) {
+            Ressource ressource = new Ressource();
+            ressource.setDesignation(typeRessource);
+            ressource.setJoueur(joueur);
+            joueur.getRessourcesPossedees().add(ressource);
+            RessourceDAO ressourceDAO = new RessourceDAO();
+            ressourceDAO.ajouter(ressource);
+        }
+    }
+
+    public void rejoindrePartie(long idJoueur) {
+        // Génère les ressources SI aucune ressource pour ce joueur
+        JoueurDAO dao = new JoueurDAO();
+        Joueur joueur = dao.rechercher(idJoueur);
+        if (joueur.getRessourcesPossedees().isEmpty()) {
+            // Ajouter 5 carottes
+            this.ajouterRessource(idJoueur, Ressource.TypeRessource.CAROTTE, 5);
+            // Ajouter 5 blés
+            this.ajouterRessource(idJoueur, Ressource.TypeRessource.BLE, 5);
+            // Ajouter 5 chèvres
+            this.ajouterRessource(idJoueur, Ressource.TypeRessource.CHEVRE, 5);
+            // Ajouter 2 fermiers
+            this.ajouterRessource(idJoueur, Ressource.TypeRessource.FERMIER, 2);
+        }
+    }
+
     public void inscription(String pseudo, String mdp) {
         if (pseudo.length() < 3 || pseudo.length() > 8) {
             throw new RuntimeException("Le pseudo doit être compris entre 3 et 8 caractères");
@@ -51,17 +86,16 @@ public class JoueurService {
         }
 
         // Ajoute la ferme en BDD
-        Joueur ferme = new Joueur();
-        ferme.setPseudo(pseudo);
-        ferme.setMotDePasse(mdp);
-        dao.ajouter(ferme);
+        Joueur joueur = new Joueur();
+        joueur.setPseudo(pseudo);
+        joueur.setMotDePasse(mdp);
+        dao.ajouter(joueur);
 
     }
 
-    public void connexion(String pseudo, String mdp) {
+    public Joueur connexion(String pseudo, String mdp) {
         JoueurDAO dao = new JoueurDAO();
-        if (!dao.existe(pseudo, mdp)) {
-            throw new RuntimeException("Echec de connexion");
-        }
+        Joueur j = dao.rechercher(pseudo, mdp);
+        return j;
     }
 }

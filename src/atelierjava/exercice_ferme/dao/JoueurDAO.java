@@ -15,6 +15,12 @@ import javax.persistence.Query;
  * @author Formation
  */
 public class JoueurDAO {
+    
+    public Joueur rechercher(long idJoueur){
+        EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+        Joueur j = em.find(Joueur.class, idJoueur);
+        return j;
+    }
 
     public void ajouter(Joueur j) {
         // Récupère EntityManager
@@ -53,21 +59,18 @@ public class JoueurDAO {
         return true;
     }
 
-    public boolean existe(String pseudo, String mdp) {
+    public Joueur rechercher(String pseudo, String mdp) {
         // Récupère EntityManager
         EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
         // Vérifie
         Query query = em.createQuery(""
-                + "SELECT   COUNT(j) "
+                + "SELECT   j "
                 + "FROM     Joueur j "
                 + "WHERE    j.pseudo=:pseudoExistant "
                 + "AND      j.motDePasse=:mdpExistant");
         query.setParameter("pseudoExistant", pseudo);
         query.setParameter("mdpExistant", mdp);
-        Long nbRes = (Long) query.getSingleResult();
-        if (nbRes == 0) {
-            return false;
-        }
-        return true;
+        Joueur j = (Joueur) query.getSingleResult();
+        return j;
     }
 }

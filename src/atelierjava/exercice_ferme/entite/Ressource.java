@@ -7,6 +7,8 @@ package atelierjava.exercice_ferme.entite;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,17 +23,18 @@ import javax.persistence.ManyToOne;
 public class Ressource implements Serializable {
 
     public enum TypeRessource {
-        ANIMAL_MOUTON,
-        ANIMAL_VACHE,
-        CULTURE_BLE,
-        CULTURE_CAROTTE,
-        CULTURE_MAIS
+        CHEVRE,
+        BLE,
+        CAROTTE,
+        FERMIER,
+        FROMAGE
     }
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(value = EnumType.STRING)
     private TypeRessource designation;
     private String nom;
     @JoinColumn(name = "joueur_id")
