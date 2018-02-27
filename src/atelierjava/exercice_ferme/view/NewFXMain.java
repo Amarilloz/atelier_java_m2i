@@ -22,29 +22,31 @@ import javafx.stage.Stage;
  * @author Formation
  */
 public class NewFXMain extends Application {
-    
+
     private Button bInscrription = new Button("Inscription");
     private Button bConnexion = new Button("Connexion");
-    
+
     @Override
     public void start(Stage primaryStage) {
-        
+
         BorderPane root = new BorderPane();
-        
+
         HBox barreOutils = new HBox();
         barreOutils.getChildren().add(bInscrription);
         barreOutils.getChildren().add(bConnexion);
-        
+
         bInscrription.setOnAction(e -> {
             root.setCenter(new InscriptionView(root));
         });
-        
-                
+        bConnexion.setOnAction(e -> {
+            root.setCenter(new ConnexionView(root));
+        });
+
         root.setTop(barreOutils);
         root.setBottom(new Label("Copyright 2018 M2i"));
-        
+
         Scene scene = new Scene(root, 300, 250);
-        
+
         primaryStage.setTitle("Gaïa");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -56,5 +58,5 @@ public class NewFXMain extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
