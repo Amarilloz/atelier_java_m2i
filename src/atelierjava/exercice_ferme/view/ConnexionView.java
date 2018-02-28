@@ -47,7 +47,7 @@ public class ConnexionView extends GridPane {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur");
                 alert.setHeaderText("Il s'est produit une erreur");
-                alert.setContentText("Echec de connexion");
+                alert.setContentText("Pseudo ou mot de passe incorrect");
                 alert.showAndWait();
             }
         });

@@ -6,6 +6,8 @@
 package atelierjava.exercice_ferme.test;
 
 import atelierjava.exercice_ferme.entite.Joueur;
+import atelierjava.exercice_ferme.exception.PseudoExisteException;
+import atelierjava.exercice_ferme.exception.ValidationException;
 import atelierjava.exercice_ferme.service.JoueurService;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -17,7 +19,7 @@ import static org.junit.Assert.*;
 public class JoueurServiceTest {
 
     @Test
-    public void rejoindreOK() {
+    public void rejoindreOK() throws ValidationException, PseudoExisteException {
         JoueurService service = new JoueurService();
         service.inscription("abcde", "Azerty12");
         Joueur joueur = service.connexion("abcde", "Azerty12");
@@ -25,19 +27,19 @@ public class JoueurServiceTest {
     }
 
     @Test
-    public void inscriptionOK() {
+    public void inscriptionOK() throws ValidationException, PseudoExisteException {
         JoueurService service = new JoueurService();
         service.inscription("abcd", "aAaF123");
     }
 
     @Test(expected = RuntimeException.class)
-    public void inscriptionKO() {
+    public void inscriptionKO() throws ValidationException, PseudoExisteException {
         JoueurService service = new JoueurService();
         service.inscription("abcd", "aaaa123");
     }
 
     @Test
-    public void connexionOK() {
+    public void connexionOK() throws ValidationException, PseudoExisteException {
         JoueurService service = new JoueurService();
         service.inscription("azer", "Azerty01");
         service.inscription("azert", "Azerty02");
@@ -45,7 +47,7 @@ public class JoueurServiceTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void connexionKO() {
+    public void connexionKO() throws ValidationException, PseudoExisteException {
         JoueurService service = new JoueurService();
         service.inscription("azerty", "Azerty03");
         service.inscription("azertyu", "Azerty04");

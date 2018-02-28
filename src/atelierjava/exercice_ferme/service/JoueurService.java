@@ -9,6 +9,8 @@ import atelierjava.exercice_ferme.dao.JoueurDAO;
 import atelierjava.exercice_ferme.dao.RessourceDAO;
 import atelierjava.exercice_ferme.entite.Joueur;
 import atelierjava.exercice_ferme.entite.Ressource;
+import atelierjava.exercice_ferme.exception.PseudoExisteException;
+import atelierjava.exercice_ferme.exception.ValidationException;
 
 /**
  *
@@ -60,12 +62,12 @@ public class JoueurService {
         }
     }
 
-    public void inscription(String pseudo, String mdp) {
+    public void inscription(String pseudo, String mdp) throws ValidationException, PseudoExisteException {
         if (pseudo.length() < 3 || pseudo.length() > 8) {
-            throw new RuntimeException("Le pseudo doit être compris entre 3 et 8 caractères");
+            throw new ValidationException("Le pseudo doit être compris entre 3 et 8 caractères");
         }
         if (mdp.length() < 5 || mdp.length() > 10) {
-            throw new RuntimeException("Le mot de passe doit être compris entre 5 et 8 caractères");
+            throw new ValidationException("Le mot de passe doit être compris entre 5 et 8 caractères");
         }
         if (!mdp.matches(".*[A-Z].*") || !mdp.matches(".*[0-9].*")) {
             //"." : un seul caractère quelconque
@@ -76,13 +78,13 @@ public class JoueurService {
             //".*[A-Z]" : termine par au moins un caractère [A-Z]
             // . et [A-Z] sont des types. * et + et {5,8} sont des quantifieurs
             // * équivaut à {0,} et + équivaut à {1,}
-            throw new RuntimeException("Le mot de passe doit contenir au moins une majuscule et un chiffre");
+            throw new ValidationException("Le mot de passe doit contenir au moins une majuscule et un chiffre");
         }
 
         // Vérifier que le pseudo est disponible
         JoueurDAO dao = new JoueurDAO();
         if (dao.existe(pseudo)) {
-            throw new RuntimeException("Ce pseudo existe déjà");
+            throw new PseudoExisteException("Ce pseudo existe déjà");
         }
 
         // Ajoute la ferme en BDD
