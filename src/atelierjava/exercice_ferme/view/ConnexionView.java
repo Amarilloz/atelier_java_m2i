@@ -40,14 +40,13 @@ public class ConnexionView extends GridPane {
                 JoueurService service = new JoueurService();
                 service.connexion(pseudoEntree, mdpEntree);
 
-                borderPane.setCenter(new Label("Bienvenue "
-                        + pseudoEntree
-                        + " !"));
+                borderPane.setCenter(new EcranJeuView());
             } catch (Exception exception) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur");
                 alert.setHeaderText("Il s'est produit une erreur");
-                alert.setContentText("Pseudo ou mot de passe incorrect");
+                alert.setContentText(exception.getMessage());
+                exception.printStackTrace();
                 alert.showAndWait();
             }
         });
